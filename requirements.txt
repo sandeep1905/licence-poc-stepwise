@@ -1,0 +1,27 @@
+# Core
+sqlalchemy>=2.0
+pyyaml
+pandas
+numpy
+requests
+# Document AI
+pytesseract
+opencv-python-headless
+Pillow
+PyMuPDF
+rapidfuzz
+# RAG + LLM
+chromadb
+anthropic
+# Agents
+langgraph
+# API
+fastapi
+uvicorn[standard]
+python-multipart
+httpx
+# UI
+streamlit>=1.35
+altair
+# Tests
+pytest

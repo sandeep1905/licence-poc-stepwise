@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# Business rules and scoring settings for the licence renewal POC.
+# !! ALL VALUES ARE ILLUSTRATIVE - verify with RTA before real use !!
+# Everything here can be edited without touching code.
+# ---------------------------------------------------------------------------
+
+# --- Eligibility / fees --------------------------------------------------
+eye_test_validity_years: 3          # a passed eye test is valid this long
+late_fee_per_month_aed: 10          # charged for every full month since expiry
+late_fee_cap_aed: 500               # late fee never goes above this
+evaluation_test_after_years_expired: 10   # expired longer than this -> must re-sit a driving evaluation test
+renewal_fee_aed: 300                # base renewal fee
+
+# Eye test centres treated as "approved" when checking the eye test feed
+approved_eye_test_centres:
+  - "Sample Vision Centre A"
+  - "Sample Vision Centre B"
+  - "Sample Optics Clinic C"
+
+# --- Document AI / confidence gate --------------------------------------
+confidence_threshold: 0.60          # application score below this -> NEEDS_FIX
+max_upload_attempts: 3              # after this many failed submissions -> HELP_DESK
+
+blur_threshold: 30.0                # Laplacian variance below this = blurry (to be tuned on samples in step 6)
+ocr_min_confidence: 60.0            # Tesseract mean word confidence (0-100) below this = hard to read
+name_match_min: 85                  # rapidfuzz score (0-100) needed for a name to count as a match
+
+# Score weights for ONE document. They must add up to 1.0.
+score_weights:
+  readable: 0.20                    # OCR confidence + blur
+  fields_extracted: 0.10            # could we find the expected fields?
+  matches_profile: 0.45             # name / ID number / licence number match the record
+  not_expired: 0.15                 # document itself is still valid
+  tamper_clean: 0.10                # no tamper heuristics fired
+
+# If one of these checks fails, the document score is capped, so one serious problem
+# cannot be hidden by good scores elsewhere.
+critical_checks: [matches_profile, not_expired, present]
+critical_fail_cap: 0.50
+
+# --- Tamper heuristics (hints only, never proof) -------------------------
+tamper_ela_threshold: 6.0           # error-level-analysis hot-spot ratio above this raises a flag
+tamper_ela_min_peak: 12.0           # ... and the hottest block must also be at least this bright
+tamper_software_keywords: [photoshop, gimp, canva, pixlr, paint.net, snapseed, lightroom, illustrator, affinity, picsart, fotor]

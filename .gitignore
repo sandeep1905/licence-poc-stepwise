@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+# generated / local data (never push)
+data/*.db
+data/chroma/
+data/uploads/*
+!data/uploads/.gitkeep
+data/eval_results/
+.env

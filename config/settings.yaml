@@ -1,0 +1,12 @@
+# App settings (not business rules).
+# llm_mode:
+#   auto      -> try Ollama, then Anthropic (if ANTHROPIC_API_KEY is set), else template fallback
+#   ollama    -> Ollama only (falls back to template if it is not running)
+#   anthropic -> Anthropic API only (falls back to template if no key)
+#   fallback  -> never call an LLM (templates / keyword rules only)
+# The environment variable LLM_MODE overrides this value.
+llm_mode: auto
+ollama_url: "http://localhost:11434"
+ollama_model: "llama3.2"
+anthropic_model: "claude-sonnet-5-5"
+llm_timeout_seconds: 60
